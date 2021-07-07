@@ -1,4 +1,5 @@
-import { Component } from 'react'
+import { Component } from 'react';
+import NewForm from './components/NewForm';
 
 const baseURL = 'http://localhost:3003'
 
@@ -6,11 +7,32 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      notes: [
-        {title: 'First Title', date: '12/12/2021', body: 'This is just the body of the note'},
-        {title: 'Second Title', date: '12/12/2021', body: 'This is just the body of the note'},
-      ]
+      notes: []
     }
+    this.getNotes = this.getNotes.bind(this)
+    this.handleAddNotes = this.getNotes.bind(this)
+  }
+
+  componentDidMount() {
+    this.getNotes()
+  }
+
+
+  getNotes() {
+    fetch(baseURL + '/my-notes')
+    .then(data => { return data.json()}, err => console.log(err))
+    .then(notesInJson => this.setState({notes: notesInJson}), err => console.log(err))
+  }
+
+  handleAddNotes(note) {
+    const copyNotes = [...this.state.notes]
+    copyNotes.unshift(note)
+    this.setState({
+      notes: copyNotes,
+      title: '',
+      date: '',
+      body: ''
+    })
   }
  
   render() {
@@ -19,6 +41,7 @@ class App extends Component {
         <header>
           <h1>My Notes</h1>
         </header>
+        <NewForm handleAddNotes={ this.handleAddNotes } />
         <div>
           { this.state.notes.map(note => {
               return(
