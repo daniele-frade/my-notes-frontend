@@ -34,6 +34,24 @@ class App extends Component {
       body: ''
     })
   }
+
+  deleteNote(id) {
+
+    fetch(`${baseURL}/my-notes/${id}`, {
+      method: 'DELETE'
+    })
+      .then(res => {
+        if(res.status === 200) {
+          const findIndex = this.state.notes.findIndex(note => note._id === id)
+          const copyNotes = [...this.state.notes]
+          copyNotes.splice(findIndex, 1)
+
+          this.setState({
+            notes: copyNotes
+          })
+        }
+      })
+  }
  
   render() {
     return (
@@ -49,6 +67,7 @@ class App extends Component {
                   <p>{note.title}</p> 
                   <p>{note.date}</p>
                   <p>{note.body}</p>
+                  <p className="deleteBtn" onClick={() => this.deleteNote(note._id)}>x</p>
                 </div>
               )
             })
