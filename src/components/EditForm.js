@@ -2,7 +2,7 @@ import { Component } from 'react'
 
 const baseURL = 'http://localhost:3003'
 
-class NewForm extends Component {
+class EditForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,14 +22,14 @@ class NewForm extends Component {
   handleSubmit(event) {
     event.preventDefault()
     fetch(baseURL + '/my-notes', {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify({ title: this.state.title, date: this.state.date, body: this.state.body }),
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(res => res.json())
       .then(resJson => {
-        this.props.addNote(resJson)
+        this.props.updateNote(resJson)
         this.setState({
           title: '',
           date: '',
@@ -42,7 +42,7 @@ class NewForm extends Component {
   render() {
     return (
       <form onSubmit={ this.handleSubmit }>
-        <label>Add a new note</label>
+        <label>Update your new note</label>
         <input onChange={ this.handleChange } type="text" placeholder="title" id="title" name="title" value={ this.state.title } />
         <input onChange={ this.handleChange } type="date" placeholder="date" id="date" name="date" value={ this.state.date } />
         <textarea onChange={ this.handleChange } type="textarea" placeholder="text body" id="body" name="body" value={ this.state.body }></textarea>
@@ -52,4 +52,4 @@ class NewForm extends Component {
     }
   }
   
-  export default NewForm
+  export default EditForm

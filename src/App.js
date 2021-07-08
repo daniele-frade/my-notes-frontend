@@ -1,5 +1,6 @@
-import { Component } from 'react';
-import NewForm from './components/NewForm';
+import { Component } from 'react'
+import NewForm from './components/NewForm'
+import EditForm from './components/EditForm'
 
 const baseURL = 'http://localhost:3003'
 
@@ -10,7 +11,7 @@ class App extends Component {
       notes: []
     }
     this.getNotes = this.getNotes.bind(this)
-    this.handleAddNotes = this.getNotes.bind(this)
+    this.addNote = this.addNote.bind(this)
   }
 
   componentDidMount() {
@@ -24,9 +25,10 @@ class App extends Component {
     .then(notesInJson => this.setState({notes: notesInJson}), err => console.log(err))
   }
 
-  handleAddNotes(note) {
+  addNote(note) {
     const copyNotes = [...this.state.notes]
     copyNotes.unshift(note)
+    console.log(copyNotes)
     this.setState({
       notes: copyNotes,
       title: '',
@@ -34,6 +36,8 @@ class App extends Component {
       body: ''
     })
   }
+
+  
 
   deleteNote(id) {
 
@@ -59,11 +63,11 @@ class App extends Component {
         <header>
           <h1>My Notes</h1>
         </header>
-        <NewForm handleAddNotes={ this.handleAddNotes } />
+        <NewForm addNote={ this.addNote } />
         <div>
           { this.state.notes.map(note => {
               return(
-                <div>
+                <div key={note._id}>
                   <p>{note.title}</p> 
                   <p>{note.date}</p>
                   <p>{note.body}</p>
