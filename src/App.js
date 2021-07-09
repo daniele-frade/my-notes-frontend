@@ -66,8 +66,8 @@ class App extends Component {
                   <Link to="/new-note">Add New</Link>
                   { this.state.notes.map(note => {
                       return(
-                        <Link to={"/note/" + note._id} >
-                          <div key={note._id}>
+                        <Link key={note._id} to={"/note/" + note._id} >
+                          <div >
                             <p>{note.title}</p> 
                             <p>{note.date}</p>
                             <p>{note.body}</p>
