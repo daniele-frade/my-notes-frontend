@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 
 const apiURL = 'http://localhost:3003/my-notes'
 
@@ -10,9 +9,17 @@ class SingleNote extends Component {
       id: '',
       title: '',
       body: '',
-      date: ''
+      date: '',
+      isEditing: false
     }
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({ [event.currentTarget.id]: event.currentTarget.value })
   }
 
   componentDidMount() {
@@ -39,17 +46,57 @@ class SingleNote extends Component {
     this.props.onDelete(id);
     history.push('/');
   }
+
+  handleEdit() {
+    this.setState({
+        isEditing: true
+    })
+  }
+
+  handleSave() {
+    this.setState({
+        isEditing: false,
+        date: Date.now()
+    })
+    
+    fetch(apiURL + '/' + this.state.id, {
+        method: 'PUT',
+        body: JSON.stringify({ title: this.state.title, body: this.state.body }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+    .then(updatedNote => {
+        this.props.onUpdate(updatedNote)
+    })
+    .catch(error => console.log({ 'Error': error }))
+  }
  
   render() {
-    if (this.state.redirect) {
-        return <Redirect to={this.state.redirect} />
-    } else {
+    if (!this.state.isEditing) {
         return (
-            <div key="test">
+            <div key="add">
                 <h2>{this.state.title}</h2> 
-                <p>{this.state.date}</p>
+                <p>{new Date(this.state.date).toLocaleDateString(undefined, {
+                        day:    'numeric',
+                        month:  'numeric',
+                        year:   'numeric',
+                        hour:   '2-digit',
+                        minute: '2-digit',
+                    })}
+                </p>
                 <p>{this.state.body}</p>
                 <p className="deleteBtn" onClick={ this.handleDelete }>x</p>
+                <p className="edit" onClick={ this.handleEdit }>Edit</p>
+            </div>
+        )
+    } else {
+        return (
+            <div key="edit">
+                <h2>Edit Note</h2> 
+                <p> <input onChange={ this.handleChange } id="title" placeholder="Enter note title" name="title" value={this.state.title} /></p>
+                <p> <textarea onChange={ this.handleChange } id="body" placeholder="Write your note here" name="body" value={this.state.body} /></p>
+                <p><button onClick={this.handleSave}>Save</button></p>
             </div>
         )
     }

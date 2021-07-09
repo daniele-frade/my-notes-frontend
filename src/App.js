@@ -16,6 +16,7 @@ class App extends Component {
     this.getNotes = this.getNotes.bind(this)
     this.addNote = this.addNote.bind(this)
     this.deleteNoteFromView = this.deleteNoteFromView.bind(this)
+    this.onNoteUpdate = this.onNoteUpdate.bind(this)
   }
 
   componentDidMount() {
@@ -31,6 +32,17 @@ class App extends Component {
   addNote(note) {
     const copyNotes = [...this.state.notes]
     copyNotes.unshift(note)
+    this.setState({
+      notes: copyNotes
+    })
+  }
+
+  onNoteUpdate(updatedNote) {
+    const findIndex = this.state.notes.findIndex(note => note._id === updatedNote._id)
+    const copyNotes = [...this.state.notes]
+    copyNotes[findIndex].title = updatedNote.title
+    copyNotes[findIndex].date = updatedNote.date
+    copyNotes[findIndex].body = updatedNote.body
     this.setState({
       notes: copyNotes
     })
@@ -70,11 +82,8 @@ class App extends Component {
               <Route path="/new-note">
                 <NewForm addNote={ this.addNote } />
               </Route>
-              {/* <Route path="/note/:id">
-                <SingleNote deleteNoteFromView={ this.deleteNoteFromView }/>
-              </Route> */}
               <Route path="/note/:id" render={(props) => 
-                  <SingleNote {...props} noteId={props.match.params.id} onDelete={ this.deleteNoteFromView }/>
+                  <SingleNote {...props} noteId={props.match.params.id} onUpdate={ this.onNoteUpdate } onDelete={ this.deleteNoteFromView }/>
               } />
             
             </Switch>
