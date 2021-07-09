@@ -1,7 +1,8 @@
 import { Component } from 'react'
 import NewForm from './components/NewForm'
+import AllNotes from './components/AllNotes'
 import EditForm from './components/EditForm'
-import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Link, useParams } from 'react-router-dom'
 import SingleNote from './components/SingleNote'
 
 const apiURL = 'http://localhost:3003/my-notes'
@@ -23,7 +24,7 @@ class App extends Component {
   getNotes() {
     fetch(apiURL)
     .then(data => { return data.json()}, err => console.log(err))
-    .then(notesInJson => this.setState({notes: notesInJson}), err => console.log(err))
+    .then(notesFromServer => this.setState({notes: notesFromServer}), err => console.log(err))
   }
 
   addNote(note) {
@@ -34,22 +35,16 @@ class App extends Component {
     })
   }
 
-  deleteNote(id) {
+  deleteNoteFromView(id) {
+    console.log("deleting note from app.js")
+    console.log(id)
+    const findIndex = this.state.notes.findIndex(note => note._id === id)
+    const copyNotes = [...this.state.notes]
+    copyNotes.splice(findIndex, 1)
 
-    fetch(`${apiURL}/${id}`, {
-      method: 'DELETE'
+    this.setState({
+      notes: copyNotes
     })
-      .then(res => {
-        if(res.status === 200) {
-          const findIndex = this.state.notes.findIndex(note => note._id === id)
-          const copyNotes = [...this.state.notes]
-          copyNotes.splice(findIndex, 1)
-
-          this.setState({
-            notes: copyNotes
-          })
-        }
-      })
   }
  
   render() {
@@ -61,30 +56,18 @@ class App extends Component {
           </header>
           <div>
             <Switch>
-              <Route exact path="/">
-                <div>
-                  <Link to="/new-note">Add New</Link>
-                  { this.state.notes.map(note => {
-                      return(
-                        <Link key={note._id} to={"/note/" + note._id} >
-                          <div >
-                            <p>{note.title}</p> 
-                            <p>{note.date}</p>
-                            <p>{note.body}</p>
-                            <p className="deleteBtn" onClick={() => this.deleteNote(note._id)}>x</p>
-                          </div>
-                        </Link>
-                      )
-                    })
-                  }
-                </div>
-              </Route>
+              <Route path="/" render={(props) => (
+                  <AllNotes {...props} notes={this.state.notes} />
+              )} />
               <Route path="/new-note">
                 <NewForm addNote={ this.addNote } />
               </Route>
               <Route path="/note/:id">
-                <SingleNote />
+                <SingleNote deleteNoteFromView={ this.deleteNoteFromView }/>
               </Route>
+              {/* <Route path="/note/:id" render={(props) => (
+                  <SingleNote {...props} noteId={props.match.params.id} deleteNoteFromView={ this.deleteNoteFromView }/>
+              )} /> */}
             </Switch>
           </div>
         </div>
