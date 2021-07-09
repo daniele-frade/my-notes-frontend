@@ -24,7 +24,7 @@ class NewForm extends Component {
     event.preventDefault()
     fetch(baseURL + '/my-notes', {
       method: 'POST',
-      body: JSON.stringify({ title: this.state.title, date: this.state.date, body: this.state.body }),
+      body: JSON.stringify({ title: this.state.title, body: this.state.body }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -50,7 +50,6 @@ class NewForm extends Component {
             <form onSubmit={ this.handleSubmit }>
                 <label>Add a new note</label>
                 <input onChange={ this.handleChange } type="text" placeholder="title" id="title" name="title" value={ this.state.title } />
-                <input onChange={ this.handleChange } type="date" placeholder="date" id="date" name="date" value={ this.state.date } />
                 <textarea onChange={ this.handleChange } type="textarea" placeholder="text body" id="body" name="body" value={ this.state.body }></textarea>
                 <input type="submit" value="Add!" />
             </form>

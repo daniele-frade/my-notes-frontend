@@ -15,7 +15,14 @@ class AllNotes extends Component {
                     <Link key={note._id} to={"/note/" + note._id} >
                         <div >
                         <p>{note.title}</p> 
-                        <p>{note.date}</p>
+                        <p>{new Date(note.date).toLocaleDateString(undefined, {
+                                day:    'numeric',
+                                month:  'numeric',
+                                year:   'numeric',
+                                hour:   '2-digit',
+                                minute: '2-digit',
+                            })}
+                        </p>
                         <p>{note.body}</p>
                         </div>
                     </Link>
