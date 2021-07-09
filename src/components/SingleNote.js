@@ -2,11 +2,10 @@ import { Component } from 'react'
 import NewForm from './components/NewForm'
 import EditForm from './components/EditForm'
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom'
-import SingleNote from './components/SingleNote'
 
 const apiURL = 'http://localhost:3003/my-notes'
 
-class App extends Component {
+class SingleNote extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -66,14 +65,12 @@ class App extends Component {
                   <Link to="/new-note">Add New</Link>
                   { this.state.notes.map(note => {
                       return(
-                        <Link to={"/note/" + note._id} >
-                          <div key={note._id}>
-                            <p>{note.title}</p> 
-                            <p>{note.date}</p>
-                            <p>{note.body}</p>
-                            <p className="deleteBtn" onClick={() => this.deleteNote(note._id)}>x</p>
-                          </div>
-                        </Link>
+                        <div key={note._id}>
+                          <p>{note.title}</p> 
+                          <p>{note.date}</p>
+                          <p>{note.body}</p>
+                          <p className="deleteBtn" onClick={() => this.deleteNote(note._id)}>x</p>
+                        </div>
                       )
                     })
                   }
@@ -81,9 +78,6 @@ class App extends Component {
               </Route>
               <Route path="/new-note">
                 <NewForm addNote={ this.addNote } />
-              </Route>
-              <Route path="/note/:id">
-                <SingleNote />
               </Route>
             </Switch>
           </div>
@@ -93,4 +87,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default SingleNote
