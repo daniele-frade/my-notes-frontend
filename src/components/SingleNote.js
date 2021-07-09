@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { BrowserRouter as Router, withRouter } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 const apiURL = 'http://localhost:3003/my-notes'
 
@@ -9,13 +9,16 @@ class SingleNote extends Component {
     this.state = {
       id: '',
       title: '',
-      body: 'Some body',
-      date: '12/12/2020'
+      body: '',
+      date: ''
     }
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
-    const noteId = this.props.match.params.id
+    console.log(this.props)
+    console.log(this.props.match.params)
+    const noteId = this.props.noteId
     this.getSingleNote(noteId)
   } 
 
@@ -29,16 +32,28 @@ class SingleNote extends Component {
         body: retrievedNote.body
     }), err => console.log(err))
   }
+
+  handleDelete() {
+    const { match, history } = this.props
+    const id = match.params.id;
+    this.props.onDelete(id);
+    history.push('/');
+  }
  
   render() {
-    return (
-        <div key="test">
-            <h2>{this.state.title}</h2> 
-            <p>{this.state.date}</p>
-            <p>{this.state.body}</p>
-        </div>
-    )
+    if (this.state.redirect) {
+        return <Redirect to={this.state.redirect} />
+    } else {
+        return (
+            <div key="test">
+                <h2>{this.state.title}</h2> 
+                <p>{this.state.date}</p>
+                <p>{this.state.body}</p>
+                <p className="deleteBtn" onClick={ this.handleDelete }>x</p>
+            </div>
+        )
+    }
   }
 }
 
-export default withRouter(SingleNote)
+export default SingleNote

@@ -15,6 +15,7 @@ class App extends Component {
     }
     this.getNotes = this.getNotes.bind(this)
     this.addNote = this.addNote.bind(this)
+    this.deleteNoteFromView = this.deleteNoteFromView.bind(this)
   }
 
   componentDidMount() {
@@ -36,14 +37,21 @@ class App extends Component {
   }
 
   deleteNoteFromView(id) {
-    console.log("deleting note from app.js")
-    console.log(id)
     const findIndex = this.state.notes.findIndex(note => note._id === id)
     const copyNotes = [...this.state.notes]
     copyNotes.splice(findIndex, 1)
 
     this.setState({
       notes: copyNotes
+    })
+
+    fetch(`${apiURL}/${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        if(res.status !== 200) {
+            console.log('Unable to delete note.')
+        }
     })
   }
  
@@ -56,18 +64,19 @@ class App extends Component {
           </header>
           <div>
             <Switch>
-              <Route path="/" render={(props) => (
+              <Route exact path="/" render={(props) => (
                   <AllNotes {...props} notes={this.state.notes} />
               )} />
               <Route path="/new-note">
                 <NewForm addNote={ this.addNote } />
               </Route>
-              <Route path="/note/:id">
+              {/* <Route path="/note/:id">
                 <SingleNote deleteNoteFromView={ this.deleteNoteFromView }/>
-              </Route>
-              {/* <Route path="/note/:id" render={(props) => (
-                  <SingleNote {...props} noteId={props.match.params.id} deleteNoteFromView={ this.deleteNoteFromView }/>
-              )} /> */}
+              </Route> */}
+              <Route path="/note/:id" render={(props) => 
+                  <SingleNote {...props} noteId={props.match.params.id} onDelete={ this.deleteNoteFromView }/>
+              } />
+            
             </Switch>
           </div>
         </div>
