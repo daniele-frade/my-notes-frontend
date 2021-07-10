@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import {Link } from 'react-router-dom'
 
 const apiURL = 'http://localhost:3003/my-notes'
 
@@ -8,7 +9,9 @@ class SingleNote extends Component {
     this.state = {
       id: '',
       title: '',
+      editTitle: '',
       body: '',
+      editBody: '',
       date: '',
       isEditing: false
     }
@@ -16,6 +19,7 @@ class SingleNote extends Component {
     this.handleSave = this.handleSave.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
   }
 
   handleChange(event) {
@@ -23,8 +27,6 @@ class SingleNote extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
-    console.log(this.props.match.params)
     const noteId = this.props.noteId
     this.getSingleNote(noteId)
   } 
@@ -49,33 +51,45 @@ class SingleNote extends Component {
 
   handleEdit() {
     this.setState({
-        isEditing: true
+        isEditing: true,
+        editTitle: this.state.title,
+        editBody: this.state.body
     })
   }
 
   handleSave() {
     this.setState({
         isEditing: false,
-        date: Date.now()
+        date: Date.now(),
+        title: this.state.editTitle,
+        body: this.state.editBody
+    }, function() {
+        fetch(apiURL + '/' + this.state.id, {
+            method: 'PUT',
+            body: JSON.stringify({ title: this.state.title, body: this.state.body }),
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(updatedNote => {
+            this.props.onUpdate(updatedNote)
+        })
+        .catch(error => console.log({ 'Error': error }))
     })
     
-    fetch(apiURL + '/' + this.state.id, {
-        method: 'PUT',
-        body: JSON.stringify({ title: this.state.title, body: this.state.body }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    }).then(res => res.json())
-    .then(updatedNote => {
-        this.props.onUpdate(updatedNote)
+  }
+
+  
+  handleCancel() {
+    this.setState({
+        isEditing: false
     })
-    .catch(error => console.log({ 'Error': error }))
   }
  
   render() {
     if (!this.state.isEditing) {
         return (
-            <div key="add">
+            <div key="view">
                 <h2>{this.state.title}</h2> 
                 <p>{new Date(this.state.date).toLocaleDateString(undefined, {
                         day:    'numeric',
@@ -88,15 +102,17 @@ class SingleNote extends Component {
                 <p>{this.state.body}</p>
                 <p className="deleteBtn" onClick={ this.handleDelete }>x</p>
                 <p className="edit" onClick={ this.handleEdit }>Edit</p>
+                <Link to="/">Home</Link>
             </div>
         )
     } else {
         return (
             <div key="edit">
                 <h2>Edit Note</h2> 
-                <p> <input onChange={ this.handleChange } id="title" placeholder="Enter note title" name="title" value={this.state.title} /></p>
-                <p> <textarea onChange={ this.handleChange } id="body" placeholder="Write your note here" name="body" value={this.state.body} /></p>
+                <p> <input onChange={ this.handleChange } id="editTitle" placeholder="Enter note title" name="title" value={this.state.editTitle} /></p>
+                <p> <textarea onChange={ this.handleChange } id="editBody" placeholder="Write your note here" name="body" value={this.state.editBody} /></p>
                 <p><button onClick={this.handleSave}>Save</button></p>
+                <p><button onClick={this.handleCancel}>Cancel</button></p>
             </div>
         )
     }

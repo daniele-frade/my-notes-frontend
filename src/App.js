@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import NewForm from './components/NewForm'
 import AllNotes from './components/AllNotes'
-import EditForm from './components/EditForm'
 import { BrowserRouter as Router, Route, Switch, Link, useParams } from 'react-router-dom'
 import SingleNote from './components/SingleNote'
 
