@@ -12,7 +12,7 @@ class NewForm extends Component {
       body: '',
       redirect: null
     }
-
+    this.props.onNoteLoad("Add New Note")
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }

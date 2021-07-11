@@ -69,10 +69,11 @@ main header input::placeholder {
   color: rgb(179, 179, 179);
 }
 
-main footer {
-  margin-top: auto;
-  color: #888;
+.footer {
   text-align: center;
+  font-size: 0.8rem;
+  color:rgb(96, 96, 96);
+  padding: 10px 20px 10px 0;
 }
 
 .app .pro-sidebar .pro-menu {
@@ -120,4 +121,17 @@ main form input[type=text], main form textarea {
 
 main form textarea {
   font-size: 1rem;
+}
+
+.showView h2 {
+  margin-top: -15px;
+  font-size: 2.5rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.showView .date {
+  font-size: 0.9rem;
+  color: #989898;
+  margin-left: 2px;
 }

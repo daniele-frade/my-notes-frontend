@@ -2,6 +2,10 @@ import { Component } from 'react'
 import {Link } from 'react-router-dom'
 
 class AllNotes extends Component {
+    constructor(props) {
+        super(props)
+        this.props.onNoteLoad(null)
+      }
     
     render () {
         const { notes } = this.props

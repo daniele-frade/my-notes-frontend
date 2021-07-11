@@ -34,12 +34,16 @@ class SingleNote extends Component {
   getSingleNote(id) {
     fetch(apiURL + '/' + id)
     .then(data => { return data.json()}, err => console.log(err))
-    .then(retrievedNote => this.setState({
-        id: retrievedNote._id,
-        title: retrievedNote.title,
-        date: retrievedNote.date,
-        body: retrievedNote.body
-    }), err => console.log(err))
+    .then(retrievedNote => {
+      this.props.onNoteLoad(retrievedNote.title)
+      this.setState({
+          id: retrievedNote._id,
+          title: retrievedNote.title,
+          date: retrievedNote.date,
+          body: retrievedNote.body
+      })
+    })
+    .catch( error => console.log(error) )
   }
 
   handleDelete() {
@@ -89,16 +93,16 @@ class SingleNote extends Component {
   render() {
     if (!this.state.isEditing) {
         return (
-            <div key="view">
+            <div key="view" className="showView">
                 <h2>{this.state.title}</h2> 
-                <p>{new Date(this.state.date).toLocaleDateString(undefined, {
+                <div className="date">{new Date(this.state.date).toLocaleDateString(undefined, {
                         day:    'numeric',
                         month:  'numeric',
                         year:   'numeric',
                         hour:   '2-digit',
                         minute: '2-digit',
                     })}
-                </p>
+                </div>
                 <p>{this.state.body}</p>
                 <p className="deleteBtn" onClick={ this.handleDelete }>x</p>
                 <p className="edit" onClick={ this.handleEdit }>Edit</p>
@@ -107,7 +111,7 @@ class SingleNote extends Component {
         )
     } else {
         return (
-            <div key="edit">
+            <div key="edit" className="editView">
                 <h2>Edit Note</h2> 
                 <p> <input onChange={ this.handleChange } id="editTitle" placeholder="Enter note title" name="title" value={this.state.editTitle} /></p>
                 <p> <textarea onChange={ this.handleChange } id="editBody" placeholder="Write your note here" name="body" value={this.state.editBody} /></p>

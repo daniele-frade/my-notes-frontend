@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import 'react-pro-sidebar/dist/css/styles.css'
 
 import Header from './components/Header'
-import Footer from './components/Footer'
 import AllNotes from './components/AllNotes'
 import SingleNote from './components/SingleNote'
 import NewForm from './components/NewForm'
@@ -17,12 +16,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      notes: []
+      notes: [],
+      subpageTitle: null
     }
     this.getNotes = this.getNotes.bind(this)
     this.addNote = this.addNote.bind(this)
     this.deleteNoteFromView = this.deleteNoteFromView.bind(this)
     this.onNoteUpdate = this.onNoteUpdate.bind(this)
+    this.updateBreadCrumbs = this.updateBreadCrumbs.bind(this)
   }
 
   componentDidMount() {
@@ -33,6 +34,12 @@ class App extends Component {
     fetch(apiURL)
     .then(data => { return data.json()}, err => console.log(err))
     .then(notesFromServer => this.setState({notes: notesFromServer}), err => console.log(err))
+  }
+
+  updateBreadCrumbs(newSubpageTitle) {
+    this.setState({
+      subpageTitle: newSubpageTitle
+    })
   }
 
   addNote(note) {
@@ -81,20 +88,19 @@ class App extends Component {
           <main>
               <Header />
               <div className="mainContent">
-                <Breadcrumbs />
+                <Breadcrumbs subpageTitle={ this.state.subpageTitle }/>
                 <Switch>
                   <Route exact path="/" render={(props) => (
-                      <AllNotes {...props} notes={this.state.notes} />
+                      <AllNotes {...props} notes={this.state.notes} onNoteLoad={ this.updateBreadCrumbs} />
                   )} />
                   <Route path="/new-note">
-                    <NewForm addNote={ this.addNote } />
+                    <NewForm onNoteLoad={ this.updateBreadCrumbs} addNote={ this.addNote } />
                   </Route>
                   <Route path="/note/:id" render={(props) => 
-                      <SingleNote {...props} noteId={props.match.params.id} onUpdate={ this.onNoteUpdate } onDelete={ this.deleteNoteFromView }/>
+                      <SingleNote {...props} noteId={props.match.params.id} onNoteLoad={ this.updateBreadCrumbs} onUpdate={ this.onNoteUpdate } onDelete={ this.deleteNoteFromView }/>
                   } />
                 </Switch>
               </div>
-              <Footer />
           </main>
           
         </div>

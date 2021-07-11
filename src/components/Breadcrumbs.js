@@ -3,32 +3,38 @@ import { Link, withRouter } from 'react-router-dom'
 
 class Breadcrumbs extends Component {
 
-    getPageTitleFromPathname(currentLocation) {
-        switch (currentLocation.pathname) {
-            case "/":
-                return null
-                break
-            case "/new-note":
-                return "Add New Note"    
-            default:
-                return null
-                break
-        }
+    constructor(props) {
+        super(props)
     }
 
+    // getPageTitleFromPathname(currentLocation) {
+    //     switch (currentLocation.pathname) {
+    //         case "/":
+    //             return null
+    //             break
+    //         case "/new-note":
+    //             return "Add New Note"    
+    //         default:
+    //             return null
+    //             break
+    //     }
+    // }
+
     render() {
-        const title = this.getPageTitleFromPathname(this.props.location)
-        if (title) {
+        console.log(this.props.subpageTitle)
+        if (this.props.subpageTitle) {
             return (
                 <div className="breadcrumbs">
                     <Link to="/">All Notes</Link>
                     <span className="separator">&raquo;</span>
-                    <span className="currentPage">{ title }</span>
+                    <span className="currentPage">{ this.props.subpageTitle }</span>
                 </div>
             )
         } else {
             return (
-                <div></div>
+                <div className="breadcrumbs">
+                    <span>All Notes</span>
+                </div>
             )
         }
         
