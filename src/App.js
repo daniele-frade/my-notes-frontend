@@ -1,8 +1,15 @@
 import { Component } from 'react'
-import NewForm from './components/NewForm'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
+import 'react-pro-sidebar/dist/css/styles.css'
+
+import Header from './components/Header'
+import Footer from './components/Footer'
 import AllNotes from './components/AllNotes'
-import { BrowserRouter as Router, Route, Switch, Link, useParams } from 'react-router-dom'
 import SingleNote from './components/SingleNote'
+import NewForm from './components/NewForm'
+import Sidebar from './components/Sidebar';
+import Breadcrumbs from './components/Breadcrumbs'
 
 const apiURL = 'http://localhost:3003/my-notes'
 
@@ -69,24 +76,27 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className='app'>
-          <header>
-          <Link to="/"><h1>My Notes</h1></Link>
-          </header>
-          <div>
-            <Switch>
-              <Route exact path="/" render={(props) => (
-                  <AllNotes {...props} notes={this.state.notes} />
-              )} />
-              <Route path="/new-note">
-                <NewForm addNote={ this.addNote } />
-              </Route>
-              <Route path="/note/:id" render={(props) => 
-                  <SingleNote {...props} noteId={props.match.params.id} onUpdate={ this.onNoteUpdate } onDelete={ this.deleteNoteFromView }/>
-              } />
-            
-            </Switch>
-          </div>
+        <div className="app">
+          <Sidebar />
+          <main>
+              <Header />
+              <div className="mainContent">
+                <Breadcrumbs />
+                <Switch>
+                  <Route exact path="/" render={(props) => (
+                      <AllNotes {...props} notes={this.state.notes} />
+                  )} />
+                  <Route path="/new-note">
+                    <NewForm addNote={ this.addNote } />
+                  </Route>
+                  <Route path="/note/:id" render={(props) => 
+                      <SingleNote {...props} noteId={props.match.params.id} onUpdate={ this.onNoteUpdate } onDelete={ this.deleteNoteFromView }/>
+                  } />
+                </Switch>
+              </div>
+              <Footer />
+          </main>
+          
         </div>
       </Router>
     )

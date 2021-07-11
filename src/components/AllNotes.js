@@ -7,7 +7,6 @@ class AllNotes extends Component {
         const { notes } = this.props
         return (
             <div>
-                <Link to="/new-note">Add New</Link>
                 { notes.map(note => {
                     return(
                     <Link key={note._id} to={"/note/" + note._id} >

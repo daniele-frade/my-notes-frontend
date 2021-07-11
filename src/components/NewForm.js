@@ -48,9 +48,8 @@ class NewForm extends Component {
     } else {
         return (
             <form onSubmit={ this.handleSubmit }>
-                <label>Add a new note</label>
-                <input onChange={ this.handleChange } type="text" placeholder="title" id="title" name="title" value={ this.state.title } />
-                <textarea onChange={ this.handleChange } type="textarea" placeholder="text body" id="body" name="body" value={ this.state.body }></textarea>
+                <input onChange={ this.handleChange } type="text" placeholder="Note Title" id="title" name="title" value={ this.state.title } />
+                <textarea onChange={ this.handleChange } type="textarea" placeholder="Type your body content here" id="body" name="body" value={ this.state.body }></textarea>
                 <input type="submit" value="Add!" />
             </form>
             )
