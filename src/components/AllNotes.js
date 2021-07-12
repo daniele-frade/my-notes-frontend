@@ -15,7 +15,7 @@ class AllNotes extends Component {
                 <CardDeck>
                 { notes.map(note => {
                     return(
-                        <Card>
+                        <Card key={note._id}>
                             <Link key={note._id} to={"/note/" + note._id} >
                             <Card.Body>
                                 <small className="text-muted">

@@ -57,11 +57,32 @@ main header {
 
 main header input {
   border: none;
-  display: inline-block;
   font-size: 2rem;
   font-weight: lighter;
   padding: 8px 20px;
-  width: calc(100% - 100px);
+  width: calc(100% - 200px);
+  float: left;
+}
+
+main header .userActions {
+  float: right;
+  width: 200px;
+  text-align: right;
+  height: 60px;
+  line-height: 60px;
+}
+
+main header .userActions .action {
+  cursor: pointer;
+  color: #7e7e7e;
+}
+
+main header .userActions .action:hover {
+  color: #353535;
+}
+
+main header .userActions .action > span {
+  font-size: 0.9rem;
 }
 
 main header input::placeholder {

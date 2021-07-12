@@ -1,44 +1,31 @@
 import { Component } from "react"
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useOktaAuth } from '@okta/okta-react';
 
-class Breadcrumbs extends Component {
+const Breadcrumbs = (props) => {
 
-    constructor(props) {
-        super(props)
+    const { oktaAuth, authState } = useOktaAuth()
+    
+    // Don't show sidebar if not authenticated
+    if (!authState || !authState.isAuthenticated) {
+        return ''
     }
-
-    // getPageTitleFromPathname(currentLocation) {
-    //     switch (currentLocation.pathname) {
-    //         case "/":
-    //             return null
-    //             break
-    //         case "/new-note":
-    //             return "Add New Note"    
-    //         default:
-    //             return null
-    //             break
-    //     }
-    // }
-
-    render() {
-        console.log(this.props.subpageTitle)
-        if (this.props.subpageTitle) {
-            return (
-                <div className="breadcrumbs">
-                    <Link to="/">All Notes</Link>
-                    <span className="separator">&raquo;</span>
-                    <span className="currentPage">{ this.props.subpageTitle }</span>
-                </div>
-            )
-        } else {
-            return (
-                <div className="breadcrumbs">
-                    <span>All Notes</span>
-                </div>
-            )
-        }
-        
+    
+    if (props.subpageTitle) {
+        return (
+            <div className="breadcrumbs">
+                <Link to="/">All Notes</Link>
+                <span className="separator">&raquo;</span>
+                <span className="currentPage">{ props.subpageTitle }</span>
+            </div>
+        )
+    } else {
+        return (
+            <div className="breadcrumbs">
+                <span>All Notes</span>
+            </div>
+        )
     }
 }
 
-export default withRouter(Breadcrumbs)
+export default Breadcrumbs
