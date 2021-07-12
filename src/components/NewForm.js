@@ -1,5 +1,6 @@
 import { Component } from 'react' 
 import { Redirect } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const baseURL = 'http://localhost:3003'
 
@@ -47,10 +48,14 @@ class NewForm extends Component {
         return <Redirect to={this.state.redirect} />
     } else {
         return (
-            <form onSubmit={ this.handleSubmit }>
+            <form>
+                <p>
                 <input onChange={ this.handleChange } type="text" placeholder="Note Title" id="title" name="title" value={ this.state.title } />
+                </p>
+                <p>
                 <textarea onChange={ this.handleChange } type="textarea" placeholder="Type your body content here" id="body" name="body" value={ this.state.body }></textarea>
-                <input type="submit" value="Add!" />
+                </p>
+                <p><Button onClick={ this.handleSubmit } variant="success">Add</Button></p>
             </form>
             )
         }

@@ -26,16 +26,16 @@ body {
 .logo, .logo:hover, .logo:visited {
   text-transform: uppercase;
   font-size: 1.6rem;
-  padding: 30px 20px;
+  padding: 32px 20px 30px;
   font-weight: lighter;
   letter-spacing: 0.05rem;
   display: block;
   text-decoration: none;
-  color: #989898;
+  color: #eeeeee;
 }
 
 .logo svg {
-  margin-bottom: -3px;
+  margin-bottom: 6px;
   margin-left: 16px;
 }
 
@@ -47,7 +47,7 @@ main {
 }
 
 main .mainContent {
-  padding: 24px;
+  padding: 24px 24px 48px 24px;
 }
 
 main header {
@@ -69,11 +69,27 @@ main header input::placeholder {
   color: rgb(179, 179, 179);
 }
 
+.app .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-footer {
+  border-top: 1px solid rgb(228 228 228 / 30%);
+}
+
 .footer {
   text-align: center;
-  font-size: 0.8rem;
-  color:rgb(96, 96, 96);
+  font-size: 0.9rem;
+  color: #575757;
   padding: 10px 20px 10px 0;
+}
+
+.app .pro-sidebar, .app .pro-sidebar .pro-menu a {
+  color: #a0a0a0;
+}
+
+.app .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item:hover {
+  color: rgb(216, 216, 216);
+}
+
+.app .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header {
+  border-bottom: 1px solid rgb(228 228 228 / 30%);
 }
 
 .app .pro-sidebar .pro-menu {
@@ -87,7 +103,7 @@ main header input::placeholder {
 .breadcrumbs {
   margin-top: -10px;
   font-size: 0.9rem;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .breadcrumbs > * {
@@ -121,12 +137,18 @@ main form input[type=text], main form textarea {
 
 main form textarea {
   font-size: 1rem;
+  margin-top: 10px;
+  height: calc(100vh - 300px);
+}
+
+main form .btn {
+  margin-right: 6px;
 }
 
 .showView h2 {
-  margin-top: -15px;
+  margin-top: 0;
   font-size: 2.5rem;
-  margin-bottom: 0;
+  margin-bottom: 5px;
   padding-bottom: 0;
 }
 
@@ -134,4 +156,67 @@ main form textarea {
   font-size: 0.9rem;
   color: #989898;
   margin-left: 2px;
+  margin-bottom: 16px;
+}
+
+main .btn-success {
+  background-color: #FF5722;
+  border-color: #FF5722;
+}
+
+main .btn-success:hover {
+  background-color: #b63610;
+  border-color: #b63610;
+}
+
+.showView .action {
+  color: #FF5722;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.showView .action:hover {
+  color: #b63610;
+}
+
+.app .card-deck {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 32px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.card, .card a, .card a:hover {
+  text-decoration: none;
+  color: #353535;
+}
+
+.app .card-deck .card {
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.15);
+  border-radius: 2px;
+  transition: box-shadow 250ms ease-in 0s;
+  flex: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.card:hover {
+  box-shadow: -2px 8px 22px 0 rgba(0,0,0,0.25);
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #505050 !important;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-top: 8px;
 }

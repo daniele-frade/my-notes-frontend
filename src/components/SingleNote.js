@@ -1,5 +1,6 @@
 import { Component } from 'react'
-import {Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
+
 
 const apiURL = 'http://localhost:3003/my-notes'
 
@@ -104,19 +105,23 @@ class SingleNote extends Component {
                     })}
                 </div>
                 <p>{this.state.body}</p>
-                <p className="deleteBtn" onClick={ this.handleDelete }>x</p>
-                <p className="edit" onClick={ this.handleEdit }>Edit</p>
-                <Link to="/">Home</Link>
+                <p>
+                  <span className="action" onClick={ this.handleEdit }>Edit</span>
+                  <span className="action" onClick={ this.handleDelete }>Delete</span>
+                </p>
             </div>
         )
     } else {
         return (
             <div key="edit" className="editView">
-                <h2>Edit Note</h2> 
-                <p> <input onChange={ this.handleChange } id="editTitle" placeholder="Enter note title" name="title" value={this.state.editTitle} /></p>
-                <p> <textarea onChange={ this.handleChange } id="editBody" placeholder="Write your note here" name="body" value={this.state.editBody} /></p>
-                <p><button onClick={this.handleSave}>Save</button></p>
-                <p><button onClick={this.handleCancel}>Cancel</button></p>
+                <form>
+                  <p><input type="text" onChange={ this.handleChange } id="editTitle" placeholder="Enter note title" name="title" value={this.state.editTitle} /></p>
+                  <p><textarea onChange={ this.handleChange } id="editBody" placeholder="Write your note here" name="body" value={this.state.editBody} /></p>
+                  <p>
+                    <Button onClick={this.handleCancel} variant="light">Cancel</Button>
+                    <Button onClick={this.handleSave} variant="success">Save</Button>
+                  </p>
+                </form>
             </div>
         )
     }
