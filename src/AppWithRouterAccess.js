@@ -13,8 +13,8 @@ import Sidebar from './components/Sidebar';
 import Breadcrumbs from './components/Breadcrumbs'
 import Login from './components/Login'
 
-const apiURL = 'https://secure-plains-54293.herokuapp.com/'
-//const apiURL = 'http://localhost:3003/my-notes'
+//const apiURL = 'https://secure-plains-54293.herokuapp.com/'
+const apiURL = 'http://localhost:3003/my-notes'
 
 const oktaAuth = new OktaAuth({
   issuer: 'https://dev-68864381.okta.com/oauth2/default',
