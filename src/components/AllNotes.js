@@ -72,6 +72,11 @@ const AllNotes = (props) => {
                             <Card.Text>
                                 {note.body_preview}
                             </Card.Text>
+                            <Card.Footer>
+                                {note.tags.map(tag => {
+                                    return (<span key={note._id + tag._id} className="tag">{tag.name}</span>)
+                                })}
+                            </Card.Footer>
                         </Card.Body>
                         </Link>
                     </Card>
