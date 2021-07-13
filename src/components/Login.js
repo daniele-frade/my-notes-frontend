@@ -18,7 +18,7 @@ function Login() {
     console.log('error logging in', err);
   }
 
-  return authState.isAuthenticated ?
+  return (authState && authState.isAuthenticated) ?
     <Redirect to={{ pathname: '/' }}/> :
     <OktaSignInWidget
       baseUrl='https://dev-68864381.okta.com'

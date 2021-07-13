@@ -77,11 +77,19 @@ main header .userActions .action {
   color: #7e7e7e;
 }
 
+main header .userActions .user {
+  color: #7e7e7e;
+  margin-right: 15px;
+  border-right: 1px solid #d8d8d8;
+  padding-right: 15px;
+}
+
 main header .userActions .action:hover {
   color: #353535;
 }
 
-main header .userActions .action > span {
+main header .userActions .action > span,
+main header .userActions .user {
   font-size: 0.9rem;
 }
 
@@ -185,9 +193,10 @@ main .btn-success {
   border-color: #FF5722;
 }
 
-main .btn-success:hover {
-  background-color: #b63610;
-  border-color: #b63610;
+main .btn-success:hover, main .btn-success:focus, main .btn-success:active {
+  background-color: #b63610 !important;
+  border-color: #b63610 !important;
+  box-shadow: none !important;
 }
 
 .showView .action {
