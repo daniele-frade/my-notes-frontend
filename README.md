@@ -6,7 +6,7 @@ Last but not least, the app implements authentication through a third party serv
 
 <h4> Demo: </h4>
 
-[heroky deployment](https://herokuapp.com/)
+[heroky deployment](https://vast-plateau-89069.herokuapp.com/)
 
 The above link will take you to our app on Heroku. The front-end is a react based SPA (single page application) which depends on an API for providing the CRUD functionality. 
 
